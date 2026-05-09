@@ -1,10 +1,8 @@
 "use client";
-import { useContext, useState } from "react";
-import { EventsContext } from "@/app/context/EventsContext";
-import {useRouter} from "next/navigation"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const { setEvents } = useContext(EventsContext);
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -23,15 +21,20 @@ export default function Page() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newEvent = {
-      id: Date.now().toString(),
-      ...formData,
-    };
+    const response = await fetch("/api/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
+    const data = await response.json();
+
+    console.log(data);
 
     setFormData({
       title: "",
@@ -39,7 +42,8 @@ export default function Page() {
       location: "",
       description: "",
     });
-    router.push("/dashboard/events")
+
+    router.push("/dashboard/events");
   };
 
   return (
