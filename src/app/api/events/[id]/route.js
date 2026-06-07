@@ -88,3 +88,29 @@ export async function PUT(request, context) {
     });
   }
 }
+
+export async function DELETE(request, context) {
+  try {
+    const params = await context.params;
+    const id = params?.id;
+
+    const client = await clientPromise;
+
+    const db = client.db("verity-tracker");
+    const collection = db.collection("events");
+
+    await collection.deleteOne({
+      _id: new ObjectId(id),
+    });
+
+    return Response.json({
+      success: true,
+      message: "Event deleted successfully",
+    });
+  } catch (error) {
+    return Response.json({
+      success: false,
+      error: error.message,
+    });
+  }
+}
