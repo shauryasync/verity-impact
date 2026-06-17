@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Page() {
   const { id } = useParams();
+  const router = useRouter();
 
   const [volunteer, setVolunteer] = useState(null);
 
@@ -21,6 +22,20 @@ export default function Page() {
       fetchVolunteer();
     }
   }, [id]);
+
+  const handleDelete = async () => {
+    const response = await fetch(`/api/volunteers/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      router.push("/dashboard/volunteers");
+    } else {
+      console.error(data.error);
+    }
+  };
 
   if (!volunteer) {
     return <h1>Loading...</h1>;
@@ -51,6 +66,8 @@ export default function Page() {
       <Link href={`/dashboard/volunteers/${id}/edit`}>
         <button>Edit Volunteer</button>
       </Link>
+
+      <button onClick={handleDelete}>Delete Volunteer</button>
 
       <Link href="/dashboard/volunteers">
         <button>Back</button>
