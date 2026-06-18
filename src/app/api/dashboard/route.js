@@ -21,11 +21,40 @@ export async function GET() {
       0,
     );
 
+    const mostRecentEvent =
+      events.length > 0
+        ? [...events].sort((a, b) => new Date(b.date) - new Date(a.date))[0]
+        : null;
+
+    const volunteerParticipationCount = {};
+
+    events.forEach((event) => {
+      event.volunteerIds?.forEach((volunteerId) => {
+        volunteerParticipationCount[volunteerId] =
+          (volunteerParticipationCount[volunteerId] || 0) + 1;
+      });
+    });
+
+    let mostActiveVolunteer = null;
+
+    if (Object.keys(volunteerParticipationCount).length > 0) {
+      const mostActiveVolunteerId = Object.entries(
+        volunteerParticipationCount,
+      ).sort((a, b) => b[1] - a[1])[0][0];
+
+      mostActiveVolunteer = volunteers.find(
+        (volunteer) => volunteer._id.toString() === mostActiveVolunteerId,
+      );
+    }
+
     return Response.json({
       totalEvents,
       totalVolunteers,
       totalParticipations,
       totalBeneficiariesReached,
+
+      mostRecentEvent: mostRecentEvent?.title || null,
+      mostActiveVolunteer: mostActiveVolunteer?.name || null,
     });
   } catch (error) {
     return Response.json(

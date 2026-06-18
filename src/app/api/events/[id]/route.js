@@ -23,9 +23,10 @@ export async function GET(request, context) {
   try {
     const client = await clientPromise;
     const db = client.db("verity-tracker");
-    const collection = db.collection("events");
 
-    const event = await collection.findOne({ _id: new ObjectId(id) });
+    const event = await db.collection("events").findOne({
+      _id: new ObjectId(id),
+    });
 
     if (!event) {
       return NextResponse.json(
@@ -34,10 +35,15 @@ export async function GET(request, context) {
       );
     }
 
-    const sanitized = { ...event, id: event._id.toString() };
-    if (event.date)
+    const sanitized = {
+      ...event,
+      id: event._id.toString(),
+    };
+
+    if (event.date) {
       sanitized.date =
         event.date instanceof Date ? event.date.toISOString() : event.date;
+    }
 
     return NextResponse.json(sanitized);
   } catch (error) {
@@ -49,43 +55,95 @@ export async function GET(request, context) {
 }
 
 export async function PUT(request, context) {
+  const params = await context.params;
+  const id = params?.id;
+
+  if (!id) {
+    return NextResponse.json(
+      { success: false, error: "Missing id parameter" },
+      { status: 400 },
+    );
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { success: false, error: "Invalid id" },
+      { status: 400 },
+    );
+  }
+
   try {
-    const params = await context.params;
-    const id = params?.id;
-
-    console.log("ID:", id);
-
     const body = await request.json();
+
+    if (!body.title?.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Title is required" },
+        { status: 400 },
+      );
+    }
+
+    if (!body.date) {
+      return NextResponse.json(
+        { success: false, error: "Date is required" },
+        { status: 400 },
+      );
+    }
+
+    if (!body.location?.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Location is required" },
+        { status: 400 },
+      );
+    }
+
+    if (
+      body.mealsServed < 0 ||
+      body.beneficiariesReached < 0 ||
+      body.fundsRaised < 0
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Impact metrics cannot be negative",
+        },
+        { status: 400 },
+      );
+    }
 
     const client = await clientPromise;
     const db = client.db("verity-tracker");
-    const collection = db.collection("events");
 
-    const result = await collection.updateOne(
+    const result = await db.collection("events").updateOne(
       { _id: new ObjectId(id) },
       {
         $set: {
-          title: body.title,
+          title: body.title.trim(),
           date: body.date,
-          location: body.location,
-          description: body.description,
+          location: body.location.trim(),
+          description: body.description || "",
+          mealsServed: body.mealsServed || 0,
+          beneficiariesReached: body.beneficiariesReached || 0,
+          fundsRaised: body.fundsRaised || 0,
         },
       },
     );
 
-    console.log("RESULT:", result);
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: "Event not found" },
+        { status: 404 },
+      );
+    }
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
-      result,
+      message: "Event updated successfully",
     });
   } catch (error) {
-    console.log(error);
-
-    return Response.json({
-      success: false,
-      error: error.message,
-    });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -94,23 +152,35 @@ export async function DELETE(request, context) {
     const params = await context.params;
     const id = params?.id;
 
+    if (!id || !ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid id" },
+        { status: 400 },
+      );
+    }
+
     const client = await clientPromise;
-
     const db = client.db("verity-tracker");
-    const collection = db.collection("events");
 
-    await collection.deleteOne({
+    const result = await db.collection("events").deleteOne({
       _id: new ObjectId(id),
     });
 
-    return Response.json({
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: "Event not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json({
       success: true,
       message: "Event deleted successfully",
     });
   } catch (error) {
-    return Response.json({
-      success: false,
-      error: error.message,
-    });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }

@@ -1,9 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -11,46 +14,89 @@ export default function Page() {
     location: "",
     description: "",
     volunteerIds: [],
-
     mealsServed: 0,
     beneficiariesReached: 0,
     fundsRaised: 0,
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: e.target.type === "number" ? Number(value) : value,
+      [name]: type === "number" ? Number(value) : value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("/api/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    if (!formData.title.trim()) {
+      alert("Title is required");
+      return;
+    }
 
-    const data = await response.json();
+    if (!formData.date) {
+      alert("Date is required");
+      return;
+    }
 
-    console.log(data);
+    if (!formData.location.trim()) {
+      alert("Location is required");
+      return;
+    }
 
-    setFormData({
-      title: "",
-      date: "",
-      location: "",
-      description: "",
-      mealsServed: 0,
-      beneficiariesReached: 0,
-      fundsRaised: 0,
-    });
+    if (formData.mealsServed < 0) {
+      alert("Meals served cannot be negative");
+      return;
+    }
 
-    router.push("/dashboard/events");
+    if (formData.beneficiariesReached < 0) {
+      alert("Beneficiaries reached cannot be negative");
+      return;
+    }
+
+    if (formData.fundsRaised < 0) {
+      alert("Funds raised cannot be negative");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch("/api/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Failed to create event");
+        return;
+      }
+
+      setFormData({
+        title: "",
+        date: "",
+        location: "",
+        description: "",
+        volunteerIds: [],
+        mealsServed: 0,
+        beneficiariesReached: 0,
+        fundsRaised: 0,
+      });
+
+      router.push("/dashboard/events");
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -84,10 +130,12 @@ export default function Page() {
         value={formData.description}
         onChange={handleChange}
       />
+
       <input
         type="number"
         name="mealsServed"
         placeholder="Meals Served"
+        min="0"
         value={formData.mealsServed}
         onChange={handleChange}
       />
@@ -96,6 +144,7 @@ export default function Page() {
         type="number"
         name="beneficiariesReached"
         placeholder="Beneficiaries Reached"
+        min="0"
         value={formData.beneficiariesReached}
         onChange={handleChange}
       />
@@ -104,11 +153,14 @@ export default function Page() {
         type="number"
         name="fundsRaised"
         placeholder="Funds Raised"
+        min="0"
         value={formData.fundsRaised}
         onChange={handleChange}
       />
 
-      <button type="submit">Add Event</button>
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Creating Event..." : "Add Event"}
+      </button>
     </form>
   );
 }

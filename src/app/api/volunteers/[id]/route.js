@@ -23,9 +23,10 @@ export async function GET(request, context) {
   try {
     const client = await clientPromise;
     const db = client.db("verity-tracker");
-    const collection = db.collection("volunteers");
 
-    const volunteer = await collection.findOne({ _id: new ObjectId(id) });
+    const volunteer = await db.collection("volunteers").findOne({
+      _id: new ObjectId(id),
+    });
 
     if (!volunteer) {
       return NextResponse.json(
@@ -34,12 +35,10 @@ export async function GET(request, context) {
       );
     }
 
-    const sanitized = { ...volunteer, id: volunteer._id.toString() };
-    if (volunteer.date)
-      sanitized.date =
-        volunteer.date instanceof Date
-          ? volunteer.date.toISOString()
-          : volunteer.date;
+    const sanitized = {
+      ...volunteer,
+      id: volunteer._id.toString(),
+    };
 
     return NextResponse.json(sanitized);
   } catch (error) {
@@ -51,57 +50,118 @@ export async function GET(request, context) {
 }
 
 export async function PUT(request, context) {
+  const params = await context.params;
+  const id = params?.id;
+
+  if (!id) {
+    return NextResponse.json(
+      { success: false, error: "Missing id parameter" },
+      { status: 400 },
+    );
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { success: false, error: "Invalid id" },
+      { status: 400 },
+    );
+  }
+
   try {
-    const params = await context.params;
-    const id = params?.id;
-
-    console.log("ID:", id);
-
     const body = await request.json();
+
+    if (!body.name?.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Name is required" },
+        { status: 400 },
+      );
+    }
+
+    if (!body.email?.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Email is required" },
+        { status: 400 },
+      );
+    }
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    if (!emailRegex.test(body.email)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid email format" },
+        { status: 400 },
+      );
+    }
+
+    if (body.phone && !/^\d{10}$/.test(body.phone)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Phone number must be 10 digits",
+        },
+        { status: 400 },
+      );
+    }
 
     const client = await clientPromise;
     const db = client.db("verity-tracker");
-    const collection = db.collection("volunteers");
 
-    const result = await collection.updateOne(
+    const result = await db.collection("volunteers").updateOne(
       { _id: new ObjectId(id) },
       {
         $set: {
-          name: body.name,
-          email: body.email,
-          phone: body.phone,
-          status: body.status,
-          availability: body.availability,
-          skills: body.skills,
+          name: body.name.trim(),
+          email: body.email.trim(),
+          phone: body.phone || "",
+          status: body.status || "Active",
+          availability: body.availability || "Flexible",
+          skills: body.skills || [],
+          joinedDate: body.joinedDate || "",
         },
       },
     );
 
-    console.log("RESULT:", result);
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: "Volunteer not found" },
+        { status: 404 },
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      result,
+      message: "Volunteer updated successfully",
     });
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json({
-      success: false,
-      error: error.message,
-    });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
 export async function DELETE(request, context) {
-  try {
-    const params = await context.params;
-    const id = params?.id;
+  const params = await context.params;
+  const id = params?.id;
 
+  if (!id) {
+    return NextResponse.json(
+      { success: false, error: "Missing id parameter" },
+      { status: 400 },
+    );
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { success: false, error: "Invalid id" },
+      { status: 400 },
+    );
+  }
+
+  try {
     const client = await clientPromise;
     const db = client.db("verity-tracker");
 
-    // Remove volunteer from all events
     await db.collection("events").updateMany(
       {},
       {
@@ -111,10 +171,16 @@ export async function DELETE(request, context) {
       },
     );
 
-    // Delete volunteer document
-    await db.collection("volunteers").deleteOne({
+    const result = await db.collection("volunteers").deleteOne({
       _id: new ObjectId(id),
     });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: "Volunteer not found" },
+        { status: 404 },
+      );
+    }
 
     return NextResponse.json({
       success: true,
@@ -122,10 +188,7 @@ export async function DELETE(request, context) {
     });
   } catch (error) {
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message,
-      },
+      { success: false, error: error.message },
       { status: 500 },
     );
   }

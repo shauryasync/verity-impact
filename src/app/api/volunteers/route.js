@@ -4,21 +4,78 @@ export async function POST(request) {
   try {
     const body = await request.json();
 
+    if (!body.name?.trim()) {
+      return Response.json(
+        {
+          success: false,
+          error: "Name is required",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (!body.email?.trim()) {
+      return Response.json(
+        {
+          success: false,
+          error: "Email is required",
+        },
+        { status: 400 },
+      );
+    }
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    if (!emailRegex.test(body.email)) {
+      return Response.json(
+        {
+          success: false,
+          error: "Invalid email format",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (body.phone && !/^\d{10}$/.test(body.phone)) {
+      return Response.json(
+        {
+          success: false,
+          error: "Phone number must be 10 digits",
+        },
+        { status: 400 },
+      );
+    }
+
+    const volunteer = {
+      name: body.name.trim(),
+      email: body.email.trim(),
+      phone: body.phone || "",
+      skills: body.skills || [],
+      availability: body.availability || "Flexible",
+      status: body.status || "Active",
+      joinedDate: body.joinedDate || "",
+    };
+
     const client = await clientPromise;
     const db = client.db("verity-tracker");
-    const collection = db.collection("volunteers");
 
-    await collection.insertOne(body);
+    await db.collection("volunteers").insertOne(volunteer);
 
-    return Response.json({
-      success: true,
-      message: "Volunteer added successfully",
-    });
+    return Response.json(
+      {
+        success: true,
+        message: "Volunteer added successfully",
+      },
+      { status: 201 },
+    );
   } catch (error) {
-    return Response.json({
-      success: false,
-      error: error.message,
-    });
+    return Response.json(
+      {
+        success: false,
+        error: error.message,
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -26,52 +83,17 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db("verity-tracker");
-    const collection = db.collection("volunteers");
 
-    const volunteers = await collection.find({}).toArray();
+    const volunteers = await db.collection("volunteers").find({}).toArray();
 
     return Response.json(volunteers);
   } catch (error) {
-    return Response.json({
-      success: false,
-      error: error.message,
-    });
-  }
-}
-export async function PUT(request, context) {
-  try {
-    const params = await context.params;
-    const id = params?.id;
-
-    const body = await request.json();
-
-    const client = await clientPromise;
-    const db = client.db("verity-tracker");
-    const collection = db.collection("volunteers");
-
-    await collection.updateOne(
-      { _id: new ObjectId(id) },
+    return Response.json(
       {
-        $set: {
-          name: body.name,
-          email: body.email,
-          phone: body.phone,
-          skills: body.skills,
-          availability: body.availability,
-          status: body.status,
-          joinedDate: body.joinedDate,
-        },
+        success: false,
+        error: error.message,
       },
+      { status: 500 },
     );
-
-    return Response.json({
-      success: true,
-      message: "Volunteer updated successfully",
-    });
-  } catch (error) {
-    return Response.json({
-      success: false,
-      error: error.message,
-    });
   }
 }

@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,22 +42,57 @@ export default function Page() {
       }));
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("/api/volunteers", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    if (!formData.name.trim()) {
+      alert("Name is required");
+      return;
+    }
 
-    const data = await response.json();
+    if (!formData.email.trim()) {
+      alert("Email is required");
+      return;
+    }
 
-    console.log(data);
+    const emailRegex = /^\S+@\S+\.\S+$/;
 
-    router.push("/dashboard/volunteers");
+    if (!emailRegex.test(formData.email)) {
+      alert("Enter a valid email address");
+      return;
+    }
+
+    if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
+      alert("Enter a valid 10-digit phone number");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch("/api/volunteers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Failed to add volunteer");
+        return;
+      }
+
+      router.push("/dashboard/volunteers");
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -92,6 +130,7 @@ export default function Page() {
           <input
             type="checkbox"
             value="Teaching"
+            checked={formData.skills.includes("Teaching")}
             onChange={handleSkillChange}
           />
           Teaching
@@ -101,6 +140,7 @@ export default function Page() {
           <input
             type="checkbox"
             value="Fundraising"
+            checked={formData.skills.includes("Fundraising")}
             onChange={handleSkillChange}
           />
           Fundraising
@@ -110,6 +150,7 @@ export default function Page() {
           <input
             type="checkbox"
             value="Food Distribution"
+            checked={formData.skills.includes("Food Distribution")}
             onChange={handleSkillChange}
           />
           Food Distribution
@@ -119,6 +160,7 @@ export default function Page() {
           <input
             type="checkbox"
             value="Event Management"
+            checked={formData.skills.includes("Event Management")}
             onChange={handleSkillChange}
           />
           Event Management
@@ -128,6 +170,7 @@ export default function Page() {
           <input
             type="checkbox"
             value="Photography"
+            checked={formData.skills.includes("Photography")}
             onChange={handleSkillChange}
           />
           Photography
@@ -137,6 +180,7 @@ export default function Page() {
           <input
             type="checkbox"
             value="Social Media"
+            checked={formData.skills.includes("Social Media")}
             onChange={handleSkillChange}
           />
           Social Media
@@ -165,7 +209,9 @@ export default function Page() {
         onChange={handleChange}
       />
 
-      <button type="submit">Add Volunteer</button>
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Adding Volunteer..." : "Add Volunteer"}
+      </button>
     </form>
   );
 }

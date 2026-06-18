@@ -44,6 +44,17 @@ export default function Page() {
           <h2>Beneficiaries Reached</h2>
           <p>{stats.totalBeneficiariesReached}</p>
         </div>
+        <div className="border p-4 rounded">
+          <h2>Most Active Volunteer</h2>
+
+          <p>{stats.mostActiveVolunteer || "No data"}</p>
+        </div>
+
+        <div className="border p-4 rounded">
+          <h2>Most Recent Event</h2>
+
+          <p>{stats.mostRecentEvent || "No data"}</p>
+        </div>
       </div>
     </div>
   );
