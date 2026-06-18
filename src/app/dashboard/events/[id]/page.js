@@ -63,6 +63,19 @@ export default function Page() {
   if (!event) {
     return <h1>Loading...</h1>;
   }
+
+  const removeVolunteer = async (volunteerId) => {
+    await fetch(`/api/events/${id}/volunteers`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ volunteerId }),
+    });
+
+    window.location.reload();
+  };
+
   return (
     <div>
       <h1>{event.title}</h1>
@@ -79,7 +92,15 @@ export default function Page() {
 
       {volunteers.map((volunteer) => (
         <div key={volunteer._id}>
-          <span>{volunteer.name}</span>
+          <span>
+            <div key={volunteer._id}>
+              <span>{volunteer.name}</span>
+
+              <button onClick={() => removeVolunteer(volunteer._id)}>
+                Remove
+              </button>
+            </div>
+          </span>
 
           <button onClick={() => assignVolunteer(volunteer._id)}>Assign</button>
         </div>
