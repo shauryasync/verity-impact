@@ -80,7 +80,11 @@ export default function Page() {
       <p>{event.description}</p>
       <p>{event.date}</p>
       <p>{event.location}</p>
+      <p>Meals Served: {event.mealsServed || 0}</p>
 
+      <p>Beneficiaries Reached: {event.beneficiariesReached || 0}</p>
+
+      <p>Funds Raised: ₹{event.fundsRaised || 0}</p>
       <p>Volunteers Assigned: {assignedVolunteers.length}</p>
 
       <h2>Assigned Volunteers</h2>

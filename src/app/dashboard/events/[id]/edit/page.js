@@ -12,6 +12,9 @@ export default function Page() {
     date: "",
     location: "",
     description: "",
+    mealsServed: 0,
+    beneficiariesReached: 0,
+    fundsRaised: 0,
   });
 
   useEffect(() => {
@@ -24,6 +27,9 @@ export default function Page() {
         date: data.date || "",
         location: data.location || "",
         description: data.description || "",
+        mealsServed: data.mealsServed || 0,
+        beneficiariesReached: data.beneficiariesReached || 0,
+        fundsRaised: data.fundsRaised || 0,
       });
     }
 
@@ -33,11 +39,11 @@ export default function Page() {
   }, [id]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "number" ? Number(value) : value,
     }));
   };
 

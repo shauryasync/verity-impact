@@ -11,6 +11,10 @@ export default function Page() {
     location: "",
     description: "",
     volunteerIds: [],
+
+    mealsServed: 0,
+    beneficiariesReached: 0,
+    fundsRaised: 0,
   });
 
   const handleChange = (e) => {
@@ -18,10 +22,9 @@ export default function Page() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: e.target.type === "number" ? Number(value) : value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,6 +45,9 @@ export default function Page() {
       date: "",
       location: "",
       description: "",
+      mealsServed: 0,
+      beneficiariesReached: 0,
+      fundsRaised: 0,
     });
 
     router.push("/dashboard/events");
@@ -76,6 +82,29 @@ export default function Page() {
         name="description"
         placeholder="Enter description"
         value={formData.description}
+        onChange={handleChange}
+      />
+      <input
+        type="number"
+        name="mealsServed"
+        placeholder="Meals Served"
+        value={formData.mealsServed}
+        onChange={handleChange}
+      />
+
+      <input
+        type="number"
+        name="beneficiariesReached"
+        placeholder="Beneficiaries Reached"
+        value={formData.beneficiariesReached}
+        onChange={handleChange}
+      />
+
+      <input
+        type="number"
+        name="fundsRaised"
+        placeholder="Funds Raised"
+        value={formData.fundsRaised}
         onChange={handleChange}
       />
 
