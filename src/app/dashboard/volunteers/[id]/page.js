@@ -9,13 +9,11 @@ export default function Page() {
   const router = useRouter();
 
   const [volunteer, setVolunteer] = useState(null);
-
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     async function fetchVolunteer() {
       const eventsResponse = await fetch(`/api/volunteers/${id}/events`);
-
       const eventsData = await eventsResponse.json();
 
       setEvents(eventsData);
@@ -49,6 +47,13 @@ export default function Page() {
     return <h1>Loading...</h1>;
   }
 
+  const sortedEvents = [...events].sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
+
+  const lastParticipation =
+    sortedEvents.length > 0 ? sortedEvents[0].date : null;
+
   return (
     <div>
       <h1>{volunteer.name}</h1>
@@ -70,9 +75,14 @@ export default function Page() {
           <li key={skill}>{skill}</li>
         ))}
       </ul>
-      <h2>Participation History</h2>
 
-      <p>Total Events: {events.length}</p>
+      <h2>Volunteer Analytics</h2>
+
+      <p>Total Events Participated: {events.length}</p>
+
+      <p>Last Participation: {lastParticipation || "No participation yet"}</p>
+
+      <h2>Participation History</h2>
 
       {events.length === 0 ? (
         <p>No events assigned yet.</p>
