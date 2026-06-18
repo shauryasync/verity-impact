@@ -10,8 +10,16 @@ export default function Page() {
 
   const [volunteer, setVolunteer] = useState(null);
 
+  const [events, setEvents] = useState([]);
+
   useEffect(() => {
     async function fetchVolunteer() {
+      const eventsResponse = await fetch(`/api/volunteers/${id}/events`);
+
+      const eventsData = await eventsResponse.json();
+
+      setEvents(eventsData);
+
       const response = await fetch(`/api/volunteers/${id}`);
       const data = await response.json();
 
@@ -62,6 +70,15 @@ export default function Page() {
           <li key={skill}>{skill}</li>
         ))}
       </ul>
+      <h2>Participation History</h2>
+
+      <p>Total Events: {events.length}</p>
+
+      {events.length === 0 ? (
+        <p>No events assigned yet.</p>
+      ) : (
+        events.map((event) => <div key={event._id}>{event.title}</div>)
+      )}
 
       <Link href={`/dashboard/volunteers/${id}/edit`}>
         <button>Edit Volunteer</button>
