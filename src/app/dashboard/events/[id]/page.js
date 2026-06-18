@@ -11,30 +11,6 @@ export default function Page() {
   const [event, setEvent] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
 
-  const assignVolunteer = async (volunteerId) => {
-    await fetch(`/api/events/${id}/volunteers`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ volunteerId }),
-    });
-
-    window.location.reload();
-  };
-
-  const handleDelete = async () => {
-    const response = await fetch(`/api/events/${id}`, {
-      method: "DELETE",
-    });
-
-    const data = await response.json();
-
-    console.log(data);
-
-    router.push("/dashboard/events");
-  };
-
   useEffect(() => {
     async function fetchData() {
       const eventResponse = await fetch(`/api/events/${id}`);
@@ -53,16 +29,17 @@ export default function Page() {
     }
   }, [id]);
 
-  if (!event) {
-    return <h1>Loading...</h1>;
-  }
-  const assignedVolunteers = volunteers.filter((volunteer) =>
-    event.volunteerIds?.includes(volunteer._id),
-  );
+  const assignVolunteer = async (volunteerId) => {
+    await fetch(`/api/events/${id}/volunteers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ volunteerId }),
+    });
 
-  if (!event) {
-    return <h1>Loading...</h1>;
-  }
+    window.location.reload();
+  };
 
   const removeVolunteer = async (volunteerId) => {
     await fetch(`/api/events/${id}/volunteers`, {
@@ -76,35 +53,35 @@ export default function Page() {
     window.location.reload();
   };
 
+  const handleDelete = async () => {
+    await fetch(`/api/events/${id}`, {
+      method: "DELETE",
+    });
+
+    router.push("/dashboard/events");
+  };
+
+  if (!event) {
+    return <h1>Loading...</h1>;
+  }
+
+  const assignedVolunteers = volunteers.filter((volunteer) =>
+    event.volunteerIds?.includes(volunteer._id.toString()),
+  );
+
+  const availableVolunteers = volunteers.filter(
+    (volunteer) => !event.volunteerIds?.includes(volunteer._id.toString()),
+  );
+
   return (
     <div>
       <h1>{event.title}</h1>
 
       <p>{event.description}</p>
-
       <p>{event.date}</p>
-
       <p>{event.location}</p>
 
-      <p>Volunteers Assigned: {event.volunteerIds?.length || 0}</p>
-
-      <h2>Available Volunteers</h2>
-
-      {volunteers.map((volunteer) => (
-        <div key={volunteer._id}>
-          <span>
-            <div key={volunteer._id}>
-              <span>{volunteer.name}</span>
-
-              <button onClick={() => removeVolunteer(volunteer._id)}>
-                Remove
-              </button>
-            </div>
-          </span>
-
-          <button onClick={() => assignVolunteer(volunteer._id)}>Assign</button>
-        </div>
-      ))}
+      <p>Volunteers Assigned: {assignedVolunteers.length}</p>
 
       <h2>Assigned Volunteers</h2>
 
@@ -112,7 +89,29 @@ export default function Page() {
         <p>No volunteers assigned yet.</p>
       ) : (
         assignedVolunteers.map((volunteer) => (
-          <div key={volunteer._id}>{volunteer.name}</div>
+          <div key={volunteer._id}>
+            <span>{volunteer.name}</span>
+
+            <button onClick={() => removeVolunteer(volunteer._id)}>
+              Remove
+            </button>
+          </div>
+        ))
+      )}
+
+      <h2>Available Volunteers</h2>
+
+      {availableVolunteers.length === 0 ? (
+        <p>No volunteers available.</p>
+      ) : (
+        availableVolunteers.map((volunteer) => (
+          <div key={volunteer._id}>
+            <span>{volunteer.name}</span>
+
+            <button onClick={() => assignVolunteer(volunteer._id)}>
+              Assign
+            </button>
+          </div>
         ))
       )}
 

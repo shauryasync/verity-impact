@@ -99,11 +99,20 @@ export async function DELETE(request, context) {
     const id = params?.id;
 
     const client = await clientPromise;
-
     const db = client.db("verity-tracker");
-    const collection = db.collection("volunteers");
 
-    await collection.deleteOne({
+    // Remove volunteer from all events
+    await db.collection("events").updateMany(
+      {},
+      {
+        $pull: {
+          volunteerIds: id,
+        },
+      },
+    );
+
+    // Delete volunteer document
+    await db.collection("volunteers").deleteOne({
       _id: new ObjectId(id),
     });
 
@@ -112,9 +121,12 @@ export async function DELETE(request, context) {
       message: "Volunteer deleted successfully",
     });
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      error: error.message,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message,
+      },
+      { status: 500 },
+    );
   }
 }
