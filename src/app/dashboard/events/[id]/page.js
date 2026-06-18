@@ -56,7 +56,13 @@ export default function Page() {
   if (!event) {
     return <h1>Loading...</h1>;
   }
+  const assignedVolunteers = volunteers.filter((volunteer) =>
+    event.volunteerIds?.includes(volunteer._id),
+  );
 
+  if (!event) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <div>
       <h1>{event.title}</h1>
@@ -78,6 +84,16 @@ export default function Page() {
           <button onClick={() => assignVolunteer(volunteer._id)}>Assign</button>
         </div>
       ))}
+
+      <h2>Assigned Volunteers</h2>
+
+      {assignedVolunteers.length === 0 ? (
+        <p>No volunteers assigned yet.</p>
+      ) : (
+        assignedVolunteers.map((volunteer) => (
+          <div key={volunteer._id}>{volunteer.name}</div>
+        ))
+      )}
 
       <Link href={`/dashboard/events/${id}/edit`}>
         <button>Edit Event</button>
