@@ -10,6 +10,7 @@ export default function Page() {
     date: "",
     location: "",
     description: "",
+    volunteerIds: [],
   });
 
   const handleChange = (e) => {
