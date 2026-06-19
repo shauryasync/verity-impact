@@ -1,11 +1,36 @@
+import Link from "next/link";
 import NavLinks from "./navlinks";
 
 export default function SideNav() {
   return (
-    <div className="flex flex-col justify-between space-x-0 space-y-2 bg-gray-500 h-screen w-64">
-      <div className="flex flex-col gap-6 px-4 mt-10">
-        <NavLinks />
+    <aside className="flex h-screen flex-col justify-between bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+      <div>
+        <Link href="/dashboard" className="flex items-center gap-3 px-6 py-8">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sidebar-primary">
+            <span className="text-lg">🌳</span>
+          </div>
+
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">NGO Tracker</h1>
+
+            <p className="text-sm text-sidebar-foreground/70">Impact Manager</p>
+          </div>
+        </Link>
+
+        <div className="px-3">
+          <NavLinks />
+        </div>
       </div>
-    </div>
+
+      <div className="px-3 pb-6">
+        <Link
+          href="/dashboard/settings"
+          className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        >
+          <span className="text-lg">⚙️</span>
+          <span>Settings</span>
+        </Link>
+      </div>
+    </aside>
   );
 }
