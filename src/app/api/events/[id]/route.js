@@ -37,7 +37,13 @@ export async function GET(request, context) {
 
     const sanitized = {
       ...event,
+      _id: event._id.toString(),
       id: event._id.toString(),
+      volunteerIds: Array.isArray(event.volunteerIds)
+        ? event.volunteerIds.map((id) =>
+            id && typeof id.toString === "function" ? id.toString() : id,
+          )
+        : [],
     };
 
     if (event.date) {
