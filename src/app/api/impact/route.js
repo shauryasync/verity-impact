@@ -57,6 +57,20 @@ export async function GET() {
       volunteerGrowth[month] = (volunteerGrowth[month] || 0) + 1;
     });
 
+    const formattedEventTrends = Object.entries(eventTrends)
+      .map(([month, count]) => ({
+        month,
+        count,
+      }))
+      .sort((a, b) => new Date(a.month) - new Date(b.month));
+
+    const formattedVolunteerGrowth = Object.entries(volunteerGrowth)
+      .map(([month, count]) => ({
+        month,
+        count,
+      }))
+      .sort((a, b) => new Date(a.month) - new Date(b.month));
+
     const mostActiveMonth =
       Object.entries(participationByMonth).sort(
         (a, b) => b[1] - a[1],
@@ -102,8 +116,8 @@ export async function GET() {
       totalImpact,
       averageVolunteersPerEvent,
       mostActiveMonth,
-      eventTrends,
-      volunteerGrowth,
+      eventTrends: formattedEventTrends,
+      volunteerGrowth: formattedVolunteerGrowth,
       topVolunteers,
       impactfulEvents,
     });

@@ -1,6 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  BarChart,
+  Bar,
+} from "recharts";
 
 export default function Page() {
   const [data, setData] = useState(null);
@@ -73,29 +84,83 @@ export default function Page() {
         />
       </div>
 
-      {/* Charts Placeholder */}
+    {/* Charts */}
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
-          <h2 className="text-xl font-semibold text-[#2D2D2D]">
-            Events per Month
-          </h2>
+<div className="grid gap-6 lg:grid-cols-2">
+  <div className="rounded-2xl border border-gray-200 bg-white p-6">
+    <h2 className="text-xl font-semibold text-[#2D2D2D]">
+      Events per Month
+    </h2>
 
-          <pre className="mt-4 overflow-auto text-sm text-gray-500">
-            {JSON.stringify(data.eventTrends, null, 2)}
-          </pre>
-        </div>
+    <div className="mt-6 h-72">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data.eventTrends}>
+          <CartesianGrid stroke="#F3F4F6" vertical={false} />
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
-          <h2 className="text-xl font-semibold text-[#2D2D2D]">
-            Volunteer Growth
-          </h2>
+          <XAxis
+            dataKey="month"
+            tick={{ fill: "#6B7280", fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+          />
 
-          <pre className="mt-4 overflow-auto text-sm text-gray-500">
-            {JSON.stringify(data.volunteerGrowth, null, 2)}
-          </pre>
-        </div>
-      </div>
+          <YAxis
+            allowDecimals={false}
+            tick={{ fill: "#6B7280", fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+          />
+
+          <Tooltip />
+
+          <Line
+            type="monotone"
+            dataKey="count"
+            stroke="#2F6B4F"
+            strokeWidth={3}
+            dot={{ fill: "#2F6B4F", r: 4 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  </div>
+
+  <div className="rounded-2xl border border-gray-200 bg-white p-6">
+    <h2 className="text-xl font-semibold text-[#2D2D2D]">
+      Volunteer Growth
+    </h2>
+
+    <div className="mt-6 h-72">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data.volunteerGrowth}>
+          <CartesianGrid stroke="#F3F4F6" vertical={false} />
+
+          <XAxis
+            dataKey="month"
+            tick={{ fill: "#6B7280", fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+          />
+
+          <YAxis
+            allowDecimals={false}
+            tick={{ fill: "#6B7280", fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+          />
+
+          <Tooltip />
+
+          <Bar
+            dataKey="count"
+            fill="#C97B63"
+            radius={[8, 8, 0, 0]}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </div>
+</div>
 
       {/* Top Volunteers */}
 
