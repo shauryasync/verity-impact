@@ -98,69 +98,152 @@ export default function Page() {
       setIsSubmitting(false);
     }
   };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="title"
-        placeholder="Enter title"
-        value={formData.title}
-        onChange={handleChange}
-      />
+    <div className="mx-auto max-w-3xl space-y-8">
+      <div>
+        <h1 className="text-4xl font-bold text-[#2D2D2D]">Create Event</h1>
 
-      <input
-        type="date"
-        name="date"
-        value={formData.date}
-        onChange={handleChange}
-      />
+        <p className="mt-2 text-gray-500">
+          Add a new initiative and start tracking its impact.
+        </p>
+      </div>
 
-      <input
-        type="text"
-        name="location"
-        placeholder="Enter location"
-        value={formData.location}
-        onChange={handleChange}
-      />
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6 rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+      >
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="md:col-span-2">
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Event Title
+            </label>
 
-      <textarea
-        name="description"
-        placeholder="Enter description"
-        value={formData.description}
-        onChange={handleChange}
-      />
+            <input
+              type="text"
+              name="title"
+              placeholder="Community Food Drive"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
 
-      <input
-        type="number"
-        name="mealsServed"
-        placeholder="Meals Served"
-        min="0"
-        value={formData.mealsServed}
-        onChange={handleChange}
-      />
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Date
+            </label>
 
-      <input
-        type="number"
-        name="beneficiariesReached"
-        placeholder="Beneficiaries Reached"
-        min="0"
-        value={formData.beneficiariesReached}
-        onChange={handleChange}
-      />
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
 
-      <input
-        type="number"
-        name="fundsRaised"
-        placeholder="Funds Raised"
-        min="0"
-        value={formData.fundsRaised}
-        onChange={handleChange}
-      />
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Location
+            </label>
 
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Creating Event..." : "Add Event"}
-      </button>
-    </form>
+            <input
+              type="text"
+              name="location"
+              placeholder="New Delhi"
+              value={formData.location}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Description
+            </label>
+
+            <textarea
+              name="description"
+              rows={4}
+              placeholder="Describe the event and its goals..."
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+        </div>
+
+        <div>
+          <h2 className="mb-4 text-lg font-semibold text-[#2D2D2D]">
+            Impact Metrics
+          </h2>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            <div>
+              <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+                Meals Served
+              </label>
+
+              <input
+                type="number"
+                name="mealsServed"
+                min="0"
+                value={formData.mealsServed}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+                Beneficiaries Reached
+              </label>
+
+              <input
+                type="number"
+                name="beneficiariesReached"
+                min="0"
+                value={formData.beneficiariesReached}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+                Funds Raised (₹)
+              </label>
+
+              <input
+                type="number"
+                name="fundsRaised"
+                min="0"
+                value={formData.fundsRaised}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end">
+          <button
+            type="button"
+            onClick={() => router.push("/dashboard/events")}
+            className="rounded-lg border border-gray-200 px-5 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="rounded-lg bg-[#2F6B4F] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isSubmitting ? "Creating Event..." : "Create Event"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

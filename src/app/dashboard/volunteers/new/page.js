@@ -18,6 +18,15 @@ export default function Page() {
     joinedDate: "",
   });
 
+  const skillOptions = [
+    "Teaching",
+    "Fundraising",
+    "Food Distribution",
+    "Event Management",
+    "Photography",
+    "Social Media",
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -96,122 +105,156 @@ export default function Page() {
   };
 
   return (
-    <form className="flex flex-col gap-4 max-w-xl" onSubmit={handleSubmit}>
-      <h1 className="text-2xl font-bold">Add Volunteer</h1>
-
-      <input
-        type="text"
-        name="name"
-        placeholder="Volunteer Name"
-        value={formData.name}
-        onChange={handleChange}
-      />
-
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-
-      <input
-        type="tel"
-        name="phone"
-        placeholder="Phone Number"
-        value={formData.phone}
-        onChange={handleChange}
-      />
-
+    <div className="mx-auto max-w-3xl space-y-8">
       <div>
-        <h3>Skills</h3>
+        <h1 className="text-4xl font-bold text-[#2D2D2D]">Add Volunteer</h1>
 
-        <label>
-          <input
-            type="checkbox"
-            value="Teaching"
-            checked={formData.skills.includes("Teaching")}
-            onChange={handleSkillChange}
-          />
-          Teaching
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="Fundraising"
-            checked={formData.skills.includes("Fundraising")}
-            onChange={handleSkillChange}
-          />
-          Fundraising
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="Food Distribution"
-            checked={formData.skills.includes("Food Distribution")}
-            onChange={handleSkillChange}
-          />
-          Food Distribution
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="Event Management"
-            checked={formData.skills.includes("Event Management")}
-            onChange={handleSkillChange}
-          />
-          Event Management
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="Photography"
-            checked={formData.skills.includes("Photography")}
-            onChange={handleSkillChange}
-          />
-          Photography
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="Social Media"
-            checked={formData.skills.includes("Social Media")}
-            onChange={handleSkillChange}
-          />
-          Social Media
-        </label>
+        <p className="mt-2 text-gray-500">
+          Grow your volunteer network and manage participation.
+        </p>
       </div>
 
-      <select
-        name="availability"
-        value={formData.availability}
-        onChange={handleChange}
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8 rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
       >
-        <option value="Weekdays">Weekdays</option>
-        <option value="Weekends">Weekends</option>
-        <option value="Flexible">Flexible</option>
-      </select>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Full Name
+            </label>
 
-      <select name="status" value={formData.status} onChange={handleChange}>
-        <option value="Active">Active</option>
-        <option value="Inactive">Inactive</option>
-      </select>
+            <input
+              type="text"
+              name="name"
+              placeholder="Volunteer Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
 
-      <input
-        type="date"
-        name="joinedDate"
-        value={formData.joinedDate}
-        onChange={handleChange}
-      />
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Email Address
+            </label>
 
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Adding Volunteer..." : "Add Volunteer"}
-      </button>
-    </form>
+            <input
+              type="email"
+              name="email"
+              placeholder="volunteer@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Phone Number
+            </label>
+
+            <input
+              type="tel"
+              name="phone"
+              placeholder="9876543210"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Joined Date
+            </label>
+
+            <input
+              type="date"
+              name="joinedDate"
+              value={formData.joinedDate}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Availability
+            </label>
+
+            <select
+              name="availability"
+              value={formData.availability}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            >
+              <option value="Weekdays">Weekdays</option>
+              <option value="Weekends">Weekends</option>
+              <option value="Flexible">Flexible</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Status
+            </label>
+
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            >
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="mb-4 block text-sm font-medium text-[#2D2D2D]">
+            Skills
+          </label>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {skillOptions.map((skill) => (
+              <label
+                key={skill}
+                className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4 transition hover:border-[#2F6B4F]"
+              >
+                <input
+                  type="checkbox"
+                  value={skill}
+                  checked={formData.skills.includes(skill)}
+                  onChange={handleSkillChange}
+                  className="h-4 w-4 accent-[#2F6B4F]"
+                />
+
+                <span className="text-sm text-[#2D2D2D]">{skill}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end">
+          <button
+            type="button"
+            onClick={() => router.push("/dashboard/volunteers")}
+            className="rounded-lg border border-gray-200 px-5 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="rounded-lg bg-[#2F6B4F] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isSubmitting ? "Adding Volunteer..." : "Add Volunteer"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

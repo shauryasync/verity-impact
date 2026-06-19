@@ -6,7 +6,14 @@ import { useParams, useRouter } from "next/navigation";
 export default function Page() {
   const { id } = useParams();
   const router = useRouter();
-
+  const skillOptions = [
+    "Teaching",
+    "Fundraising",
+    "Food Distribution",
+    "Event Management",
+    "Photography",
+    "Social Media",
+  ];
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -51,24 +58,26 @@ export default function Page() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "skills") {
-      const arr = value
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
-
-      setFormData((prev) => ({
-        ...prev,
-        skills: arr,
-      }));
-
-      return;
-    }
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSkillChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setFormData((prev) => ({
+        ...prev,
+        skills: [...prev.skills, value],
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        skills: prev.skills.filter((skill) => skill !== value),
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -124,58 +133,138 @@ export default function Page() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Edit Volunteer</h1>
+    <div className="mx-auto max-w-3xl space-y-8">
+      <div>
+        <h1 className="text-4xl font-bold text-[#2D2D2D]">Edit Volunteer</h1>
 
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Name"
-      />
+        <p className="mt-2 text-gray-500">
+          Update volunteer information and availability.
+        </p>
+      </div>
 
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-      />
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8 rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+      >
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Full Name
+            </label>
 
-      <input
-        type="tel"
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-      />
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
 
-      <select name="status" value={formData.status} onChange={handleChange}>
-        <option value="">Select Status</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-      </select>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Email Address
+            </label>
 
-      <input
-        type="text"
-        name="availability"
-        value={formData.availability}
-        onChange={handleChange}
-        placeholder="Availability"
-      />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
 
-      <input
-        type="text"
-        name="skills"
-        value={formData.skills.join(", ")}
-        onChange={handleChange}
-        placeholder="Comma-separated skills"
-      />
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Phone Number
+            </label>
 
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Updating Volunteer..." : "Update Details"}
-      </button>
-    </form>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Availability
+            </label>
+
+            <input
+              type="text"
+              name="availability"
+              value={formData.availability}
+              onChange={handleChange}
+              placeholder="Flexible"
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="mb-2 block text-sm font-medium text-[#2D2D2D]">
+              Status
+            </label>
+
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+            >
+              <option value="">Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="mb-4 block text-sm font-medium text-[#2D2D2D]">
+            Skills
+          </label>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {skillOptions.map((skill) => (
+              <label
+                key={skill}
+                className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4 transition hover:border-[#2F6B4F]"
+              >
+                <input
+                  type="checkbox"
+                  value={skill}
+                  checked={formData.skills.includes(skill)}
+                  onChange={handleSkillChange}
+                  className="h-4 w-4 accent-[#2F6B4F]"
+                />
+
+                <span className="text-sm text-[#2D2D2D]">{skill}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end">
+          <button
+            type="button"
+            onClick={() => router.push(`/dashboard/volunteers/${id}`)}
+            className="rounded-lg border border-gray-200 px-5 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="rounded-lg bg-[#2F6B4F] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isSubmitting ? "Updating Volunteer..." : "Save Changes"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
