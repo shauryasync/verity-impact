@@ -9,6 +9,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import Link from "next/link";
+
 export default function Page() {
   const [stats, setStats] = useState(null);
 
@@ -182,6 +184,81 @@ export default function Page() {
                 {stats.totalBeneficiariesReached || 0}
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+      <section className="grid gap-4 sm:grid-cols-3">
+        <Link
+          href="/dashboard/events/new"
+          className="rounded-2xl border bg-card p-5 transition hover:border-primary hover:shadow-sm"
+        >
+          <h3 className="font-semibold">Create Event</h3>
+
+          <p className="mt-1 text-sm text-muted-foreground">
+            Schedule a new community initiative.
+          </p>
+        </Link>
+
+        <Link
+          href="/dashboard/volunteers/new"
+          className="rounded-2xl border bg-card p-5 transition hover:border-primary hover:shadow-sm"
+        >
+          <h3 className="font-semibold">Add Volunteer</h3>
+
+          <p className="mt-1 text-sm text-muted-foreground">
+            Register a new volunteer profile.
+          </p>
+        </Link>
+
+        <Link
+          href="/dashboard/impact"
+          className="rounded-2xl border bg-card p-5 transition hover:border-primary hover:shadow-sm"
+        >
+          <h3 className="font-semibold">View Analytics</h3>
+
+          <p className="mt-1 text-sm text-muted-foreground">
+            Explore participation and impact trends.
+          </p>
+        </Link>
+      </section>
+      <section className="rounded-3xl border bg-card p-6">
+        <h3 className="text-xl font-semibold">Performance Snapshot</h3>
+
+        <div className="mt-6 grid gap-6 sm:grid-cols-3">
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Average Volunteers per Event
+            </p>
+
+            <p className="mt-2 text-3xl font-bold">
+              {stats.totalEvents > 0
+                ? (stats.totalParticipations / stats.totalEvents).toFixed(1)
+                : 0}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Volunteer Engagement
+            </p>
+
+            <p className="mt-2 text-3xl font-bold">
+              {stats.totalParticipations}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Average Impact per Event
+            </p>
+
+            <p className="mt-2 text-3xl font-bold">
+              {stats.totalEvents > 0
+                ? Math.round(
+                    stats.totalBeneficiariesReached / stats.totalEvents,
+                  )
+                : 0}
+            </p>
           </div>
         </div>
       </section>
