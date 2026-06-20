@@ -200,7 +200,7 @@ export default function Page() {
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link href={`/dashboard/events/${id}/edit`}>
-            <button className="w-full sm:w-auto inline-flex h-11 min-h-[44px] items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-[#2F6B4F] hover:text-[#2F6B4F]">
+            <button className="w-full sm:w-auto inline-flex h-11 min-h-44px items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-[#2F6B4F] hover:text-[#2F6B4F]">
               <Pencil size={16} />
               Edit
             </button>
@@ -208,7 +208,7 @@ export default function Page() {
 
           <button
             onClick={handleDelete}
-            className="w-full sm:w-auto inline-flex h-11 min-h-[44px] items-center gap-2 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
+            className="w-full sm:w-auto inline-flex h-11 min-h-44px items-center gap-2 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
           >
             <Trash2 size={16} />
             Delete

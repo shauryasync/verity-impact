@@ -2,9 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, Users, BarChart3 } from "lucide-react";
+import {
+  Home,
+  LayoutDashboard,
+  CalendarDays,
+  Users,
+  BarChart3,
+} from "lucide-react";
 
 const links = [
+  {
+    name: "Home",
+    href: "/",
+    icon: Home,
+  },
   {
     name: "Dashboard",
     href: "/dashboard",

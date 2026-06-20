@@ -34,7 +34,7 @@ export default function SideNav({ closeSidebar }) {
 
       <div className="px-3 pb-6">
         <Link
-          href="/dashboard/settings"
+          href="#"
           className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
           <span className="text-lg">⚙️</span>
