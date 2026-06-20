@@ -1,36 +1,186 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Verity — NGO Impact Tracking Platform
+
+Verity is a full-stack web application designed to help nonprofit organizations manage events, coordinate volunteers, and measure community impact through a centralized dashboard.
+
+The platform enables NGOs to move beyond spreadsheets by providing a single system to track initiatives, volunteer participation, and beneficiary outcomes.
+
+## Features
+
+### Public Landing Page
+
+- Responsive, mobile-first design
+- Real-time impact statistics
+- Featured events section
+- Mission and platform overview
+- Direct access to analytics dashboard
+
+### Dashboard
+
+- Centralized overview of NGO operations
+- Key performance indicators (KPIs)
+- Recent activity tracking
+- Quick action shortcuts
+- Performance snapshot metrics
+
+### Event Management
+
+- Create and manage community events
+- View event details and participation data
+- Search events by title or location
+- Track beneficiaries reached
+
+### Volunteer Management
+
+- Add and manage volunteer profiles
+- Store contact information and skills
+- Monitor participation history
+- Search volunteers by name, email, phone number, or skills
+
+### Impact Analytics
+
+- Measure total community reach
+- Monitor participation trends
+- Track volunteer growth over time
+- Identify top volunteers
+- Analyze event impact metrics
+
+## Tech Stack
+
+### Frontend
+
+- Next.js 15
+- React
+- Tailwind CSS
+- Lucide React
+
+### Backend
+
+- Next.js API Routes
+
+### Database
+
+- MongoDB
+
+### Deployment
+
+- Vercel
+
+## Screenshots
+
+Add screenshots of the following pages after deployment:
+
+- Landing Page
+- Dashboard
+- Events Page
+- Volunteers Page
+- Analytics Page
+- Mobile View
+
+## Project Structure
+
+```bash
+src/
+├── app/
+│   ├── api/
+│   ├── dashboard/
+│   └── page.jsx
+├── components/
+├── context/
+├── lib/
+└── styles/
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (v18 or later)
+- MongoDB Atlas account
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/verity.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd verity
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Create a `.env.local` file in the root directory:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+```
+
+5. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open your browser and visit:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+| Variable      | Description                     |
+| ------------- | ------------------------------- |
+| `MONGODB_URI` | MongoDB Atlas connection string |
 
-To learn more about Next.js, take a look at the following resources:
+## Sample Data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project includes sample volunteer and event data to demonstrate:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Event creation and management
+- Volunteer participation tracking
+- Impact analytics and reporting
+- Search functionality
 
-## Deploy on Vercel
+## Future Improvements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Authentication and authorization
+- Role-based access control
+- Export reports as PDF or CSV
+- Event image uploads
+- Email notifications
+- Volunteer attendance tracking
+- Advanced analytics and filtering
+- Settings management
+- Dark mode support
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Learning Outcomes
+
+Through this project, I gained practical experience with:
+
+- Building full-stack applications using Next.js
+- Designing RESTful APIs
+- Integrating MongoDB with server-side applications
+- Managing state in React
+- Creating responsive user interfaces with Tailwind CSS
+- Implementing search and analytics features
+- Structuring scalable frontend applications
+
+## Author
+
+**Shaurya**
+
+- GitHub: https://github.com/shauryasync
+- Email: [edshaurya@gmail.com](mailto:edshaurya@gmail.com)
+
+---
+
+If you have feedback, suggestions, or collaboration opportunities, feel free to connect.
