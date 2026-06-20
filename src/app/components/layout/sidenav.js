@@ -4,7 +4,8 @@ import { X, HandHeart } from "lucide-react";
 
 export default function SideNav({ closeSidebar }) {
   return (
-    <aside className="flex h-full w-72 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+    <aside className="flex h-screen w-72 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+      {" "}
       <div className="flex items-center justify-end p-4 lg:hidden">
         <button
           onClick={closeSidebar}
@@ -13,7 +14,6 @@ export default function SideNav({ closeSidebar }) {
           <X size={20} />
         </button>
       </div>
-
       <div className="shrink-0">
         <Link
           href="/dashboard"
@@ -36,11 +36,9 @@ export default function SideNav({ closeSidebar }) {
           </div>
         </Link>
       </div>
-
       <div className="flex-1 overflow-y-auto px-3">
         <NavLinks closeSidebar={closeSidebar} />
       </div>
-
       <div className="shrink-0 px-3 pb-6">
         <Link
           href="#"
