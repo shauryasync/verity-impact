@@ -47,8 +47,9 @@ export default function NavLinks({ closeSidebar }) {
         const Icon = link.icon;
 
         const isActive =
-          pathname === link.href ||
-          (link.href !== "/dashboard" && pathname.startsWith(link.href));
+          link.href === "/"
+            ? pathname === "/"
+            : pathname === link.href || pathname.startsWith(`${link.href}/`);
 
         return (
           <Link
@@ -62,7 +63,6 @@ export default function NavLinks({ closeSidebar }) {
             }`}
           >
             <Icon size={20} />
-
             <span>{link.name}</span>
           </Link>
         );
