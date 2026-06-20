@@ -1,9 +1,19 @@
 import Link from "next/link";
 import NavLinks from "./navlinks";
+import { X } from "lucide-react";
 
-export default function SideNav() {
+export default function SideNav({ closeSidebar }) {
   return (
-    <aside className="flex h-screen flex-col justify-between bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+    <aside className="flex h-full w-72 flex-col justify-between overflow-y-auto  border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+      <div className="flex items-center justify-end p-4 lg:hidden">
+        <button
+          onClick={closeSidebar}
+          className="rounded-lg p-2 hover:bg-sidebar-accent"
+        >
+          <X size={20} />
+        </button>
+      </div>
+
       <div>
         <Link href="/dashboard" className="flex items-center gap-3 px-6 py-8">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sidebar-primary">
@@ -18,7 +28,7 @@ export default function SideNav() {
         </Link>
 
         <div className="px-3">
-          <NavLinks />
+          <NavLinks closeSidebar={closeSidebar} />
         </div>
       </div>
 

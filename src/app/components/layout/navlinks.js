@@ -27,7 +27,7 @@ const links = [
   },
 ];
 
-export default function NavLinks() {
+export default function NavLinks({ closeSidebar }) {
   const pathname = usePathname();
 
   return (
@@ -43,6 +43,7 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
+            onClick={closeSidebar}
             className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
               isActive
                 ? "bg-sidebar-accent text-sidebar-accent-foreground"

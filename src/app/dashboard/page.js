@@ -72,15 +72,17 @@ export default function Page() {
   ];
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 w-full max-w-full min-w-0">
       <section className="flex flex-col gap-3">
-        <p className="text-sm text-muted-foreground">Welcome back</p>
+        <p className="text-sm md:text-base text-muted-foreground">
+          Welcome back
+        </p>
 
-        <h1 className="text-4xl font-bold tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
           Dashboard Overview
         </h1>
 
-        <p className="max-w-2xl text-muted-foreground">
+        <p className="max-w-full text-sm md:text-base text-muted-foreground">
           Monitor events, volunteer participation, and community impact from a
           single place.
         </p>
@@ -93,7 +95,7 @@ export default function Page() {
           return (
             <div
               key={card.title}
-              className={`rounded-3xl border p-6 transition-all hover:shadow-sm ${
+              className={`rounded-2xl border p-4 md:p-6 transition-all hover:shadow-sm ${
                 card.featured
                   ? "border-primary bg-primary text-primary-foreground"
                   : "bg-card"
@@ -133,8 +135,8 @@ export default function Page() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-3xl border bg-card p-6 lg:col-span-2">
-          <h3 className="text-xl font-semibold">Recent Activity</h3>
+        <div className="rounded-2xl border bg-card p-4 md:p-6 lg:col-span-2">
+          <h3 className="text-xl md:text-2xl font-semibold">Recent Activity</h3>
 
           <div className="mt-6 space-y-4">
             <div className="flex items-center justify-between rounded-2xl bg-muted/50 p-4">
@@ -163,8 +165,8 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="rounded-3xl border bg-card p-6">
-          <h3 className="text-xl font-semibold">Quick Summary</h3>
+        <div className="rounded-2xl border bg-card p-4 md:p-6">
+          <h3 className="text-xl md:text-2xl font-semibold">Quick Summary</h3>
 
           <div className="mt-6 space-y-5">
             <div>

@@ -34,12 +34,14 @@ export default function Page() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="w-full max-w-full min-w-0 space-y-8">
       {/* Header */}
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-[#2D2D2D]">Volunteers</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#2D2D2D]">
+            Volunteers
+          </h1>
 
           <p className="mt-2 text-gray-500">
             Manage your volunteer network and participation.
@@ -47,7 +49,7 @@ export default function Page() {
         </div>
 
         <Link href="/dashboard/volunteers/new">
-          <button className="inline-flex h-11 items-center gap-2 rounded-lg bg-[#2F6B4F] px-5 text-sm font-medium text-white transition hover:opacity-90">
+          <button className="w-full sm:w-auto inline-flex h-11 min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#2F6B4F] px-5 text-sm font-medium text-white transition hover:opacity-90">
             <Plus size={18} />
             Add Volunteer
           </button>
@@ -57,7 +59,7 @@ export default function Page() {
       {/* Search */}
 
       <div className="rounded-2xl border border-gray-200 bg-white p-4">
-        <div className="relative max-w-md">
+        <div className="relative w-full max-w-full">
           <Search
             size={18}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -66,7 +68,7 @@ export default function Page() {
           <input
             type="text"
             placeholder="Search volunteers..."
-            className="w-full rounded-lg border border-gray-200 py-3 pl-10 pr-4 outline-none transition focus:border-[#2F6B4F]"
+            className="w-full h-11 rounded-lg border border-gray-200 py-3 pl-10 pr-4 outline-none transition focus:border-[#2F6B4F]"
           />
         </div>
       </div>

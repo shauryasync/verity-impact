@@ -19,12 +19,14 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 w-full max-w-full min-w-0">
       {/* Header */}
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-[#2D2D2D]">Events</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#2D2D2D]">
+            Events
+          </h1>
 
           <p className="mt-2 text-gray-500">
             Manage upcoming initiatives and track historical impact.
@@ -32,7 +34,7 @@ export default function Page() {
         </div>
 
         <Link href="/dashboard/events/new">
-          <button className="inline-flex h-11 items-center gap-2 rounded-lg bg-[#2F6B4F] px-5 text-sm font-medium text-white transition hover:opacity-90">
+          <button className="w-full sm:w-auto inline-flex h-11 items-center gap-2 rounded-lg bg-[#2F6B4F] px-5 text-sm font-medium text-white transition hover:opacity-90">
             <Plus size={18} />
             Add Event
           </button>
@@ -42,7 +44,7 @@ export default function Page() {
       {/* Search */}
 
       <div className="rounded-2xl border border-gray-200 bg-white p-4">
-        <div className="relative max-w-md">
+        <div className="relative w-full max-w-full">
           <Search
             size={18}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -51,7 +53,7 @@ export default function Page() {
           <input
             type="text"
             placeholder="Search events..."
-            className="w-full rounded-lg border border-gray-200 py-3 pl-10 pr-4 outline-none transition focus:border-[#2F6B4F]"
+            className="w-full h-11 rounded-lg border border-gray-200 py-3 pl-10 pr-4 outline-none transition focus:border-[#2F6B4F]"
           />
         </div>
       </div>
@@ -69,16 +71,16 @@ export default function Page() {
           </p>
 
           <Link href="/dashboard/events/new">
-            <button className="mt-6 rounded-lg bg-[#2F6B4F] px-5 py-3 text-white">
+            <button className="mt-6 w-full sm:w-auto h-11 rounded-lg bg-[#2F6B4F] px-5 py-3 text-white">
               Add Event
             </button>
           </Link>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {events.map((event) => (
             <Link key={event._id} href={`/dashboard/events/${event._id}`}>
-              <div className="group h-full rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-[#2F6B4F] hover:shadow-md">
+              <div className="group h-full rounded-2xl border border-gray-200 bg-white p-4 md:p-6 transition hover:-translate-y-1 hover:border-[#2F6B4F] hover:shadow-md">
                 <div className="mb-4 flex items-start justify-between">
                   <h2 className="line-clamp-2 text-xl font-semibold text-[#2D2D2D] group-hover:text-[#2F6B4F]">
                     {event.title}

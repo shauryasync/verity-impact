@@ -178,8 +178,8 @@ export default function Page() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+    <div className="space-y-8 w-full max-w-full min-w-0">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <Link
             href="/dashboard/events"
@@ -189,14 +189,18 @@ export default function Page() {
             Back to Events
           </Link>
 
-          <h1 className="text-4xl font-bold text-[#2D2D2D]">{event.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#2D2D2D]">
+            {event.title}
+          </h1>
 
-          <p className="mt-3 max-w-2xl text-gray-500">{event.description}</p>
+          <p className="mt-3 max-w-full text-sm md:text-base text-gray-500">
+            {event.description}
+          </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Link href={`/dashboard/events/${id}/edit`}>
-            <button className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-[#2F6B4F] hover:text-[#2F6B4F]">
+            <button className="w-full sm:w-auto inline-flex h-11 min-h-[44px] items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-[#2F6B4F] hover:text-[#2F6B4F]">
               <Pencil size={16} />
               Edit
             </button>
@@ -204,7 +208,7 @@ export default function Page() {
 
           <button
             onClick={handleDelete}
-            className="inline-flex items-center gap-2 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
+            className="w-full sm:w-auto inline-flex h-11 min-h-[44px] items-center gap-2 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
           >
             <Trash2 size={16} />
             Delete
@@ -229,8 +233,8 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6">
           <div className="flex items-center gap-3">
             <Utensils className="text-[#2F6B4F]" size={22} />
 
@@ -273,8 +277,8 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6">
           <h2 className="mb-6 text-xl font-semibold text-[#2D2D2D]">
             Assigned Volunteers
           </h2>

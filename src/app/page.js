@@ -202,7 +202,7 @@ export default function HomePage() {
             alt="Volunteers working together"
             width={1200}
             height={420}
-            className="h-[300px] w-full object-cover sm:h-[420px]"
+            className="h-300px w-full object-cover sm:h-420px"
             priority
           />
         </div>

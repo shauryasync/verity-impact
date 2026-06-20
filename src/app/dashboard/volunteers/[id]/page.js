@@ -70,8 +70,8 @@ export default function Page() {
     sortedEvents.length > 0 ? sortedEvents[0].date : null;
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+    <div className="w-full max-w-full min-w-0 space-y-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <Link
             href="/dashboard/volunteers"
@@ -90,9 +90,9 @@ export default function Page() {
           </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Link href={`/dashboard/volunteers/${id}/edit`}>
-            <button className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-[#2F6B4F] hover:text-[#2F6B4F]">
+            <button className="w-full sm:w-auto inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-[#2F6B4F] hover:text-[#2F6B4F]">
               <Pencil size={16} />
               Edit
             </button>
@@ -100,7 +100,7 @@ export default function Page() {
 
           <button
             onClick={handleDelete}
-            className="inline-flex items-center gap-2 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
+            className="w-full sm:w-auto inline-flex items-center gap-2 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
           >
             <Trash2 size={16} />
             Delete
@@ -108,8 +108,8 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 lg:col-span-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 lg:col-span-2">
           <h2 className="mb-6 text-xl font-semibold text-[#2D2D2D]">
             Contact Information
           </h2>
@@ -156,7 +156,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6">
           <h2 className="mb-6 text-xl font-semibold text-[#2D2D2D]">
             Analytics
           </h2>

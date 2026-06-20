@@ -99,18 +99,20 @@ export default function Page() {
     }
   };
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="mx-auto w-full max-w-full min-w-0 space-y-8">
       <div>
-        <h1 className="text-4xl font-bold text-[#2D2D2D]">Create Event</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-[#2D2D2D]">
+          Create Event
+        </h1>
 
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-sm md:text-base text-gray-500">
           Add a new initiative and start tracking its impact.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+        className="space-y-6 rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm"
       >
         <div className="grid gap-6 md:grid-cols-2">
           <div className="md:col-span-2">
@@ -124,7 +126,7 @@ export default function Page() {
               placeholder="Community Food Drive"
               value={formData.title}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+              className="w-full h-11 rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
             />
           </div>
 
@@ -138,7 +140,7 @@ export default function Page() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+              className="w-full h-11 rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
             />
           </div>
 
@@ -153,7 +155,7 @@ export default function Page() {
               placeholder="New Delhi"
               value={formData.location}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
+              className="w-full h-11 rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#2F6B4F]"
             />
           </div>
 
@@ -230,7 +232,7 @@ export default function Page() {
           <button
             type="button"
             onClick={() => router.push("/dashboard/events")}
-            className="rounded-lg border border-gray-200 px-5 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+            className="w-full sm:w-auto rounded-lg border border-gray-200 px-5 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
           >
             Cancel
           </button>
@@ -238,7 +240,7 @@ export default function Page() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-lg bg-[#2F6B4F] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full sm:w-auto rounded-lg bg-[#2F6B4F] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? "Creating Event..." : "Create Event"}
           </button>

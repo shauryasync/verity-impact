@@ -42,20 +42,22 @@ export default function Page() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 w-full max-w-full min-w-0">
       {/* Header */}
 
       <div>
-        <h1 className="text-4xl font-bold text-[#2D2D2D]">Impact Analytics</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-[#2D2D2D]">
+          Impact Analytics
+        </h1>
 
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-sm md:text-base text-gray-500">
           Understand participation trends and community impact.
         </p>
       </div>
 
       {/* KPI Cards */}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard title="Total Events" value={data.totalEvents} />
 
         <StatCard title="Total Volunteers" value={data.totalVolunteers} />
@@ -70,7 +72,7 @@ export default function Page() {
 
       {/* Insights */}
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <InsightCard
           title="Average Volunteers per Event"
           value={data.averageVolunteersPerEvent}
@@ -84,83 +86,79 @@ export default function Page() {
         />
       </div>
 
-    {/* Charts */}
+      {/* Charts */}
 
-<div className="grid gap-6 lg:grid-cols-2">
-  <div className="rounded-2xl border border-gray-200 bg-white p-6">
-    <h2 className="text-xl font-semibold text-[#2D2D2D]">
-      Events per Month
-    </h2>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6">
+          <h2 className="text-xl font-semibold text-[#2D2D2D]">
+            Events per Month
+          </h2>
 
-    <div className="mt-6 h-72">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data.eventTrends}>
-          <CartesianGrid stroke="#F3F4F6" vertical={false} />
+          <div className="mt-6 h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data.eventTrends}>
+                <CartesianGrid stroke="#F3F4F6" vertical={false} />
 
-          <XAxis
-            dataKey="month"
-            tick={{ fill: "#6B7280", fontSize: 12 }}
-            axisLine={false}
-            tickLine={false}
-          />
+                <XAxis
+                  dataKey="month"
+                  tick={{ fill: "#6B7280", fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
 
-          <YAxis
-            allowDecimals={false}
-            tick={{ fill: "#6B7280", fontSize: 12 }}
-            axisLine={false}
-            tickLine={false}
-          />
+                <YAxis
+                  allowDecimals={false}
+                  tick={{ fill: "#6B7280", fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
 
-          <Tooltip />
+                <Tooltip />
 
-          <Line
-            type="monotone"
-            dataKey="count"
-            stroke="#2F6B4F"
-            strokeWidth={3}
-            dot={{ fill: "#2F6B4F", r: 4 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
-  </div>
+                <Line
+                  type="monotone"
+                  dataKey="count"
+                  stroke="#2F6B4F"
+                  strokeWidth={3}
+                  dot={{ fill: "#2F6B4F", r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
-  <div className="rounded-2xl border border-gray-200 bg-white p-6">
-    <h2 className="text-xl font-semibold text-[#2D2D2D]">
-      Volunteer Growth
-    </h2>
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6">
+          <h2 className="text-xl font-semibold text-[#2D2D2D]">
+            Volunteer Growth
+          </h2>
 
-    <div className="mt-6 h-72">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data.volunteerGrowth}>
-          <CartesianGrid stroke="#F3F4F6" vertical={false} />
+          <div className="mt-6 h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.volunteerGrowth}>
+                <CartesianGrid stroke="#F3F4F6" vertical={false} />
 
-          <XAxis
-            dataKey="month"
-            tick={{ fill: "#6B7280", fontSize: 12 }}
-            axisLine={false}
-            tickLine={false}
-          />
+                <XAxis
+                  dataKey="month"
+                  tick={{ fill: "#6B7280", fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
 
-          <YAxis
-            allowDecimals={false}
-            tick={{ fill: "#6B7280", fontSize: 12 }}
-            axisLine={false}
-            tickLine={false}
-          />
+                <YAxis
+                  allowDecimals={false}
+                  tick={{ fill: "#6B7280", fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
 
-          <Tooltip />
+                <Tooltip />
 
-          <Bar
-            dataKey="count"
-            fill="#C97B63"
-            radius={[8, 8, 0, 0]}
-          />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  </div>
-</div>
+                <Bar dataKey="count" fill="#C97B63" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
 
       {/* Top Volunteers */}
 
