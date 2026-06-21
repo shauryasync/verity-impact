@@ -362,44 +362,41 @@ export default function HomePage() {
           ) : featuredEvents.length === 0 ? (
             <p className="text-gray-500">No events available yet.</p>
           ) : (
-            featuredEvents.map((event) => (
-              <Link
-                key={event._id}
-                href={`/dashboard/events/${event._id}`}
-                className="group"
-              >
-                <div className="h-full rounded-3xl border border-[#E5E7EB] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                  <h3 className="text-xl font-semibold text-[#1E293B] transition group-hover:text-[#2F6B4F]">
-                    {event.title}
-                  </h3>
+           featuredEvents.map((event) => (
+  <div
+    key={event._id}
+    className="group h-full rounded-3xl border border-[#E5E7EB] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+  >
+    <h3 className="text-xl font-semibold text-[#1E293B] transition group-hover:text-[#2F6B4F]">
+      {event.title}
+    </h3>
 
-                  <div className="mt-5 space-y-3 text-sm text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <CalendarDays size={16} />
+    <div className="mt-5 space-y-3 text-sm text-gray-600">
+      <div className="flex items-center gap-2">
+        <CalendarDays size={16} />
 
-                      <span>
-                        {event.date
-                          ? new Date(event.date).toLocaleDateString()
-                          : "No date"}
-                      </span>
-                    </div>
+        <span>
+          {event.date
+            ? new Date(event.date).toLocaleDateString()
+            : "No date"}
+        </span>
+      </div>
 
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} />
+      <div className="flex items-center gap-2">
+        <MapPin size={16} />
 
-                      <span>{event.location || "No location"}</span>
-                    </div>
-                  </div>
+        <span>{event.location || "No location"}</span>
+      </div>
+    </div>
 
-                  <div className="mt-6 rounded-xl bg-[#F8FAF8] p-4">
-                    <p className="font-medium text-[#2F6B4F]">
-                      {(event.beneficiariesReached || 0).toLocaleString()}{" "}
-                      beneficiaries reached
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))
+    <div className="mt-6 rounded-xl bg-[#F8FAF8] p-4">
+      <p className="font-medium text-[#2F6B4F]">
+        {(event.beneficiariesReached || 0).toLocaleString()} beneficiaries
+        reached
+      </p>
+    </div>
+  </div>
+))
           )}
         </div>
       </section>
